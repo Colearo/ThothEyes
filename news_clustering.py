@@ -11,7 +11,7 @@ from huhu_seg.clustering import Cluster
 
 r = redis.Redis(host = 'localhost', port = 6379, decode_responses = True)
 
-dates_from = datetime.strptime('2018/02/01 00:00', '%Y/%m/%d %H:%M')
+dates_from = datetime.strptime('2018/01/18 00:00', '%Y/%m/%d %H:%M')
 
 def date_chunking(data, days_window = 14) :
     dates_start = dates_from
