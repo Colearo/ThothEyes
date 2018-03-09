@@ -19,7 +19,7 @@ for i in range(100) :
     temp.load_model(path)
     c.merge_model(temp)
 
-l = c.hierachical_cluster(0.15, 'Content', True, 'Title', 0.5)
+l = c.hierachical_cluster(0.15, 'Content', 'Title', 0.5)
 
 index = 0
 for item in l :
