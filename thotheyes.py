@@ -9,6 +9,7 @@ from huhu_seg.clustering import Cluster, Timeline
 from huhu_seg.hotspot import HotSpot
 from huhu_seg.topic import Topic
 from huhu_seg.textrank import TextRank
+from huhu_seg.tfidf import TFIDF
 
 def task_cluster(data, index) :
     topics = list()
@@ -116,12 +117,12 @@ class ThothEyes :
         for cluster, (topic, hotspot, keywords) in self.today_news.clusters :
             for c in cluster :
                 content = ''.join([item['Content'] + '\n' for item in c])
-                for keyword, weight in TextRank(content, hmm_config = True).extract_kw(10, False) :
+                for keyword, weight in TextRank(content, hmm_config = True).extract_kw(3, False) :
                     try :
-                        top_words[keyword] += hotspot * weight
+                        top_words[keyword] += (1 / hotspot) * weight
                         word2news[keyword].append(c)
                     except :
-                        top_words[keyword] = hotspot * weight
+                        top_words[keyword] = (1 / hotspot) * weight
                         word2news[keyword] = list()
                         word2news[keyword].append(c)
         top_words = sorted(iter(top_words.items()), key = lambda d:d[1], reverse = True)
@@ -130,6 +131,5 @@ class ThothEyes :
             word_list.append((word, hits, word2news[word]))
 
         return word_list
-
 
 
