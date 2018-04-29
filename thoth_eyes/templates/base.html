@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <meta http-equiv="expires" content="0">
+    <title>ThothEyes</title> 
+    <link href="static/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="static/css/base.css" rel="stylesheet" type="text/css">
+    <link href="static/css/plugin.css" rel="stylesheet" type="text/css">
+    <script src="static/js/wordcloud2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+<head-title id="app-headtitle"></head-title>
+<script src="static/components/head-title.js"></script>
+<div class="clearfix container" id="app">
+    <div class="column sidemenu">
+	<ul>
+	  <li><router-link to="/todaynews" active-class="hover"><h1>T</h1></br>今日新闻</router-link></li>
+         <li>
+	     <router-link to="/hotspot" active-class="hover">
+		 <hotspot-icon></hotspot-icon>
+		 <br/>热点观察
+	     </router-link>
+	 </li>
+	  <li>
+	      <router-link to="topicsearch" active-class="hover">
+		  <topicsearch-icon></topicsearch-icon>
+		  <br/>话题搜索
+	      </router-link>
+	  </li>
+	  <li>
+	      <router-link to="timeline" active-class="hover">
+		  <timeline-icon></timeline-icon>
+		  <br/>时间线
+	      </router-link>
+	  </li>
+	</ul>
+    </div>
+    <!--content-->
+    <router-view></router-view>
+</div>
+
+<script src="static/components/sidebar.js"></script>
+<script src="static/components/content.js"></script>
+
+<div class="footer">
+  <p>&copy; Colearo</p>
+  <p>Powered by Vue.js and Flask</p>
+</div>
+
+</body>
+</html>

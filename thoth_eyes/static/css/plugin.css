@@ -1,0 +1,82 @@
+/* Common styles and resets */
+
+.dotstyle {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+.dotstyle ul {
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dotstyle li {
+	position: relative;
+	display: block;
+	float: left;
+	margin: 5px 16px;
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.dotstyle li a {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	outline: none;
+	border-radius: 50%;
+	background-color: #fff;
+	background-color: rgba(255, 255, 255, 0.3);
+	text-indent: -999em; /* make the text accessible to screen readers */
+	cursor: pointer;
+	position: absolute;
+}
+
+.dotstyle li a:focus {
+	outline: none;
+}
+
+/* Small dot with stroke */
+
+.dotstyle-smalldotstroke li {
+	border-radius: 50%;
+	box-shadow: 0 0 0 2px rgba(51, 51, 51, 0);
+	-webkit-transition: box-shadow 0.3s ease;
+	transition: box-shadow 0.3s ease;
+}
+
+.dotstyle-smalldotstroke li a {
+	background-color: rgba(51, 51, 51, 0.7);
+	-webkit-transition: background-color 0.3s ease, -webkit-transform 0.3s ease;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dotstyle-smalldotstroke li a:hover,
+.dotstyle-smalldotstroke li a:focus,
+.dotstyle-smalldotstroke li.current a {
+	background-color: black
+}
+
+.dotstyle-smalldotstroke li.current a {
+	-webkit-transform: scale(0.5);
+	transform: scale(0.5);
+}
+
+.dotstyle-smalldotstroke li.current {
+	box-shadow: 0 0 0 2px black;
+}
+

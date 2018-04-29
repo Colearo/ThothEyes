@@ -147,7 +147,7 @@ class ThothEyes :
     def init_news_timelines(self, subtopiced_news) :
         timeline = Timeline(subtopiced_news, 'Content')
         timeline.timeline_topics()
-        self.redis.delete("subtopicid_topicid_index", "topic_id_count")
+        self.redis.delete("subtopicid_topicid_index", "topic_id_count", "timeline_days")
         for topic in timeline.topics :
             topic_id = self.redis.incr("topic_id_count")
             subtopic_titles = list()
@@ -156,6 +156,9 @@ class ThothEyes :
                 subtopic_attr = eval(self.redis.hget("subtopics_attr", subtopic_id))
                 subtopic_titles.append(subtopic_attr['Title'])
             print(subtopic_titles)
+        for days in [7, 14, 30] :
+            topics = self.find_timeline_by_days(days)
+            self.redis.hset("timeline_days", days, topics)
 
     def init_news_subtopics(self, chunked_old_news) :
         clustered_old_news = list()
@@ -245,7 +248,7 @@ class ThothEyes :
             subtopic_attr = eval(value)
             cur_date = datetime.strptime(subtopic_attr['Date'], '%Y/%m/%d %H:%M')
             if cur_date >= date and cur_date < end_date :
-                subtopics.append(subtopic_id)
+                subtopic_ids.append(subtopic_id)
         return subtopic_ids
 
     def find_news_by_subtopicid(self, subtopic_id) :
@@ -266,7 +269,6 @@ class ThothEyes :
             title = self.find_title_by_subtopicid(subtopic_id)
             topsubtopic_dict[subtopic_id] = (hotspot, title)
         topsubtopic_list = sorted(iter(topsubtopic_dict.items()), key = lambda d:d[1][0], reverse = True)
-        print(topsubtopic_list)
         return topsubtopic_list
 
     def find_topwords_by_date(self, date) :
@@ -276,7 +278,7 @@ class ThothEyes :
         for subtopic_id in subtopic_ids :
             keywords_hi_tuple = self.find_keywordshi_by_subtopicid(subtopic_id)
             subtopic_title = self.find_title_by_subtopicid(subtopic_id)
-            for keyword, values in keywords_hi_tuple[1].items() :
+            for keyword, values in dict(keywords_hi_tuple[1]).items() :
                 try :
                     topword_dict[keyword] += values[-1]
                     word_news_map[keyword].append(subtopic_title)
@@ -284,10 +286,10 @@ class ThothEyes :
                     topword_dict[keyword] = values[-1]
                     word_news_map[keyword] = [subtopic_title,]
         topword_list = sorted(iter(topword_dict.items()), key = lambda d:d[1], reverse = True)
-        print(topword_list)
+        topwords = list()
         for keyword, value in topword_list :
-            value = (value, word_news_map[keyword])
-        return topword_list
+            topwords.append((keyword, value, word_news_map[keyword]))
+        return topwords
 
     def find_timeline_by_date(self, date) :
         topics = list()
@@ -305,29 +307,39 @@ class ThothEyes :
         else :
             return None
         topic_set = [int(item.split('_')[0]) for item in self.redis.sscan_iter("subtopicid_topicid_index", '*_' + topic_id)]
+        topic_set.sort()
         return topic_set
 
     def find_timeline_by_days(self, days) :
-        topics = list()
-        today = date.today()
-        today = datetime(today.year, today.month, today.day)
-        for day in range(days) :
-            date = today - timedelta(days = day)
-            date = date.strftime('%Y/%m/%d')
-            date_topics = self.find_timeline_by_date(date)
-            for topic in date_topics :
-                if topic not in topics :
-                    topics.append(topic)
+        if self.redis.hexists("timeline_days", days) is False :
+            topics = list()
+            today = datetime.today()
+            today = datetime(today.year, today.month, today.day)
+            for day in range(days) :
+                date = today - timedelta(days = day)
+                date = date.strftime('%Y/%m/%d')
+                date_topics = self.find_timeline_by_date(date)
+                for topic in date_topics :
+                    if topic not in topics and len(topic) > 1:
+                        topics.append(topic)
+        else :
+            topics = eval(self.redis.hget("timeline_days", days))
+            
         return topics
 
     def find_keywordshi_by_subtopicid(self, subtopic_id) :
         keywords_dict = dict()
         labels = list()
         for subtopicid_keyword, value in self.redis.hscan_iter("subtopicid_keyword_index", str(subtopic_id) + '_*') :
+            value = eval(value)
             keyword = subtopicid_keyword.split('_')[1]
             labels = value[0]
             keywords_dict[keyword] = value[1]
-        keywords_hi_tuple = (labels, keywords_dict)
+        dates = list()
+        for label in labels :
+            cur_date = datetime.strptime(label, '%Y/%m/%d')
+            dates.append(cur_date.strftime('%m/%d'))
+        keywords_hi_tuple = (dates, list(keywords_dict.items()))
         return keywords_hi_tuple
 
     def find_hotspot_by_subtopicid(self, subtopic_id) :
@@ -341,8 +353,13 @@ class ThothEyes :
         title = subtopic_attr['Title']
         return title
 
+    def find_keywords_by_subtopicid(self, subtopic_id) :
+        subtopic_attr = eval(self.redis.hget("subtopics_attr", subtopic_id))
+        keywords = subtopic_attr['Keywords']
+        return keywords
+
     def find_timelinehi_by_subtopicid(self, subtopic_id) :
-        topic = self.find_timeline_by_subtopicid(self, subtopic_id)
+        topic = self.find_timeline_by_subtopicid(subtopic_id)
         subtopic_date = None
         hotspot_dict = dict()
         for item_subtopic_id in topic :
@@ -351,17 +368,17 @@ class ThothEyes :
             cur_date = cur_date.strftime('%Y/%m/%d')
             if item_subtopic_id == subtopic_id :
                 subtopic_date = cur_date
-            hotspot_dict[date] = hotspot
+            hotspot_dict[cur_date] = hotspot
 
         subtopic_date = datetime.strptime(subtopic_date, '%Y/%m/%d')
         timeline_hi = list()
         for day in range(14) :
             cur_date = subtopic_date - timedelta(days = day) 
-            cur_date = cur_date.strftime('%Y/%m/%d')
-            hotspot = hotspot_dict.get(cur_date)
+            day = cur_date.strftime('%Y/%m/%d')
+            hotspot = hotspot_dict.get(day)
             if hotspot is None :
                 hotspot = 0
-            timeline_hi.append((cur_date, hotspot))
+            timeline_hi.append((cur_date.strftime('%m/%d'), hotspot))
         timeline_hi.reverse()
         timeline_hi_tuple = tuple(zip(*timeline_hi))
         return timeline_hi_tuple
