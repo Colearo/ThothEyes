@@ -186,7 +186,16 @@ class ThothEyes :
                 print('Subtopic: ', title)
                 print('Keywords: [%s]' % (''.join(k[0] + ' ' for k in keywords)))
                 print('HotSpot: ', hotspot)
-                subtopic_id = self.redis.incr("subtopic_id_count", amount = 1)
+                subtopic_id = None
+                unrecord_news = list()
+                for news_item in sub :
+                    sscan = [item for item in self.redis.sscan_iter("newsid_subtopicid_index", str(news_item['Id']) + '_*')]
+                    if len(sscan) == 0 :
+                        unrecord_news.append(news_item)
+                    elif len(sscan) > 0 and subtopic_id is None :
+                        subtopic_id = int(sscan[0].split('_')[1])
+                if subtopic_id is None :
+                    subtopic_id = self.redis.incr("subtopic_id_count", amount = 1)
                 subtopic_attr_dict = dict()
                 subtopic_attr_dict['Title'] = title
                 subtopic_attr_dict['Hotspot'] = hotspot
@@ -194,7 +203,7 @@ class ThothEyes :
                 subtopic_attr_dict['Date'] = sub[0]['Date']
                 self.redis.hset("subtopics_attr", subtopic_id, subtopic_attr_dict)
                 subtopiced_old_news.append((subtopic_id, sub))
-                for news_item in sub :
+                for news_item in unrecord_news :
                     self.redis.sadd("newsid_subtopicid_index", str(news_item['Id']) + '_' + str(subtopic_id))
                 subtopics_keywords.append((subtopic_id, keywords))
 
