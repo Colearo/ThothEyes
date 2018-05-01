@@ -36,8 +36,7 @@ def window_cluster(chunk_data) :
 class ThothEyes :
 
     def __init__(self) :
-        # self.redis = redis.Redis(host = '120.79.165.86', port = 6379, decode_responses = True, password="lemonHUHUHE")
-        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True)
+        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
 
@@ -260,7 +259,7 @@ class ThothEyes :
         return subtopic_ids
 
     def del_subtopics_by_date(self, date) :
-        sutopic_ids = self.find_subtopicids_by_date(date)
+        subtopic_ids = self.find_subtopicids_by_date(date)
         for subtopic_id in subtopic_ids :
             self.redis.hdel("subtopics_attr", subtopic_id)
             index_list = [item for item in self.redis.sscan_iter("newsid_subtopicid_index", match = '*_' + str(subtopic_id))]
