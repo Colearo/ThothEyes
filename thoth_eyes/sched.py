@@ -9,7 +9,6 @@ from huhu_seg.clustering import Cluster, Timeline
 from huhu_seg.hotspot import HotSpot
 from huhu_seg.topic import Topic
 from huhu_seg.textrank import TextRank
-from huhu_seg.tfidf import TFIDF
 
 def window_cluster(chunk_data) :
     subtopics = list()
