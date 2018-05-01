@@ -259,6 +259,15 @@ class ThothEyes :
                 subtopic_ids.append(subtopic_id)
         return subtopic_ids
 
+    def del_subtopics_by_date(self, date) :
+        sutopic_ids = self.find_subtopicids_by_date(date)
+        for subtopic_id in subtopic_ids :
+            self.redis.hdel("subtopics_attr", subtopic_id)
+            index_list = [item for item in self.redis.sscan_iter("newsid_subtopicid_index", match = '*_' + str(subtopic_id))]
+            for index in index_list :
+                self.redis.srem("newsid_subtopicid_index", index)
+        self.redis.srem("clustered_news_date", date)
+
     def find_news_by_subtopicid(self, subtopic_id) :
         news = list()
         for item in self.redis.sscan_iter("newsid_subtopicid_index", match = '*_' + str(subtopic_id)) :
