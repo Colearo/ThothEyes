@@ -818,7 +818,7 @@ const timeline = {
 	},
 	page_change(page) {
 	    this.page = page;
-	    this.timeline_item = this.timeline_res[page]
+	    this.timeline_item = this.timeline_res[page - 1]
 	},
 	get_timeline_res: function() {
 	    let url = '/api/timelines/days/' + this.day_range;
