@@ -111,6 +111,7 @@ class ORM :
     def orm_timelines_by_days(self, days) :
         timelines = list()
         for topic in self.te.find_timeline_by_days(days) :
+            print(topic)
             timeline_dict = dict()
             timeline_dict['topic'] = self.te.find_title_by_subtopicid(topic[0])
             timeline_dict['keywords'] = [keyword for keyword, weight in self.te.find_keywords_by_subtopicid(topic[0])]
@@ -121,12 +122,26 @@ class ORM :
                 news_item = news_item[0]
                 timeline_item['title'] = news_item['Title']
                 timeline_item['date'] = news_item['Date'].split(' ')[0]
-                timeline_item['extraction'] = news_item['Content'][:100]
+                paragraphs = news_item['Content'].split('\n')
+                extra = ''
+                for paragraph in paragraphs :
+                    if len(paragraph) > 30 :
+                        extra = paragraph
+                        break
+                timeline_item['extraction'] = extra
                 timeline_items.append(timeline_item)
             timeline_items.sort(key = lambda x:x['date'])
             timeline_items = timeline_items[-5:]
             timeline_dict['timelines'] = timeline_items
             timelines.append(timeline_dict)
         return timelines
+
+    def orm_topicsearch_by_search(self, search_words) :
+        subtopic_ids = self.te.find_subtopicids_by_search(search_words)
+        subtopic_list = list()
+        for subtopic_id in subtopic_ids :
+            subtopic_list.append(self.orm_subtopic_by_subtopicid(subtopic_id))
+        return subtopic_list
+
 
 

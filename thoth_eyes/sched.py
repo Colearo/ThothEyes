@@ -5,6 +5,7 @@ import redis
 import traceback
 from datetime import datetime, timedelta, date
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from huhu_seg.segmentor import Segmentor
 from huhu_seg.clustering import Cluster, Timeline
 from huhu_seg.hotspot import HotSpot
 from huhu_seg.topic import Topic
@@ -36,7 +37,8 @@ def window_cluster(chunk_data) :
 class ThothEyes :
 
     def __init__(self) :
-        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
+        # self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
+        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True)
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
 
@@ -257,6 +259,23 @@ class ThothEyes :
             if cur_date >= date and cur_date < end_date :
                 subtopic_ids.append(subtopic_id)
         return subtopic_ids
+
+    def find_subtopicids_by_search(self, search_words) :
+        search_word_list = [token.word for token in Segmentor(search_words, hmm_config = True).gen_key_tokens(length_limit = 2)]
+        subtopic_ids = dict()
+        for key, value in self.redis.hscan_iter("subtopics_attr"):
+            subtopic_id = int(key)
+            subtopic_attr = eval(value)
+            subtopic_score = 0
+            for word in search_words :
+                if word in subtopic_attr['Title'] :
+                        subtopic_score += 1
+                else :
+                        subtopic_score -= 1
+            if subtopic_score >= 0 :
+                subtopic_ids[subtopic_id] = subtopic_score
+        subtopic_candidates = sorted(iter(subtopic_ids.items()), key = lambda x:x[1], reverse = True)
+        return [subtopic_id for subtopic_id, score in subtopic_candidates]
 
     def del_subtopics_by_date(self, date) :
         subtopic_ids = self.find_subtopicids_by_date(date)
