@@ -550,6 +550,7 @@ const topic_search = {
     v-bind:class="{visible: is_searched}">
     	<div class="item-center">
 	<news-item 
+    	v-if="has_newsbox"
     	ref="resnews"
     	v-bind:key="item.topic"
     	v-bind:news="item.news"
@@ -561,6 +562,8 @@ const topic_search = {
     	v-on:timeline_clk="handle_timeline_clk"
     	v-bind:class="{'newsbox-item-withgraph': has_hotspot_graph||has_timeline_graph}">
     	</news-item>
+    	<h1 class="noresult"
+    	v-if="has_newsbox === false">{{message}}</h1>
 	<div
     	key="graph_search"
     	class="newsbox-item-graph"
@@ -592,6 +595,8 @@ const topic_search = {
 	    is_searched: false,
 	    has_hotspot_graph: false,
 	    has_timeline_graph: false,
+	    has_newsbox: false,
+	    message: 'Please wait',
 	    search_words: '',
 	    newslist: [],
 	    item: {},
@@ -626,84 +631,20 @@ const topic_search = {
 	get_search_res: function(words) {
 	    this.is_searched = true;
 	    console.log("Searching ", words);
-	    this.newslist = [
-	    {
-	    topic : "MH370残骸" + this.page,
-	    keywords : ['MH370', '搜索', '马来西亚', '澳大利亚'],
-	    timelines : [
-		{
-		    title:'有人声称发现马航MH370残骸?',
-		    date: '2018.03.15',
-		    extraction: '据《太阳报》18日报道，澳大利亚业余事故调查员Peter McMahon声称，通过谷歌地图发现了马航MH370的残骸，上面布满弹孔。他称自己4年来一直通过NASA和谷歌地图研究，并认为自己在专家未搜索的毛里求斯北部海岸圆岛附近区域发现了飞机残骸。他称已将发现交予澳交通安全局'
-		}, 
-		{
-		    title:'马航MH370客机残骸被发现？官方回应：假消息',
-		    date: '2018.03.21',
-		    extraction: '19日，澳大利亚交通与安全部，否认了马航MH370残骸在毛里求斯被发现的说法。'
+	    let url = '/api/search/' + words;
+	    this.$http.get(url)
+	    .then(({body}) => {
+		console.log(body);
+		this.page = 1
+		this.newslist = body
+		if (this.newslist.length > 0) {
+		    has_newsbox = true;
+		    this.item = this.newslist[this.page - 1];
+		} else {
+		    message = 'Sorry. No results'
+		    has_newsbox = false;
 		}
-	    ],
-	    hotspot: {
-		index: 1.22,
-		news: {
-		    labels: ['3-12','3-13','3-14','3-15','3-16','3-17','3-18','3-19','3-20','3-21','3-22','3-23','3-24','3-25'],
-		    data: [1.02,0.55,1.33,3.44,0.43,2.22,1.22,1.02,0.55,1.33,3.44,0.43,2.22,1.22]
-		},
-		words: {
-		    labels: ['3-19','3-20','3-21','3-22','3-23','3-24','3-25'],
-		    data: [ 
-			['马航', [23,54,10,0,0,90,18]],
-			['澳大利亚', [34,11,0,103,80,71,40]]
-		    ]
-		}
-	    },
-	    news: [
-		{title: '澳男子称用谷歌地球发现MH370残骸'},
-		{title: '有人声称发现马航MH370残骸?上面全是弹孔?'},
-		{title: '澳工程师声称:MH370残骸已被发现 布满弹孔'},
-		{title: '工程师在谷歌地球发现马航370:残骸布满弹孔'}
-	    ]},
-	    {
-	    topic : this.page + "谷歌发现MH370残骸",
-	    keywords : ['MH370', '搜索', '马来西亚', '澳大利亚'],
-	    timelines : [
-		{
-		    title:'有人声称发现马航MH370残骸?',
-		    date: '2018.03.15',
-		    extraction: '据《太阳报》18日报道，澳大利亚业余事故调查员Peter McMahon声称，通过谷歌地图发现了马航MH370的残骸，上面布满弹孔。他称自己4年来一直通过NASA和谷歌地图研究，并认为自己在专家未搜索的毛里求斯北部海岸圆岛附近区域发现了飞机残骸。他称已将发现交予澳交通安全局'
-		}, 
-		{
-		    title:'马航MH370客机残骸被发现？官方回应：假消息',
-		    date: '2018.03.21',
-		    extraction: '19日，澳大利亚交通与安全部，否认了马航MH370残骸在毛里求斯被发现的说法。'
-		},
-		{
-		    title:'MH370客机残骸',
-		    date: '2018.03.22',
-		    extraction: '19日，澳大利亚交通与安全部，否认了马航MH370残骸在毛里求斯被发现的说法。'
-		}
-	    ],
-	    hotspot: {
-		index: 1.56,
-		news: {
-		    labels: ['3-12','3-13','3-14','3-15','3-16','3-17','3-18','3-19','3-20','3-21','3-22','3-23','3-24','3-25'],
-		    data: [1.02,0.55,1.33,3.44,0.43,2.22,1.22,1.02,0.55,1.33,3.44,0.43,2.22,1.56]
-		},
-		words: {
-		    labels: ['3-19','3-20','3-21','3-22','3-23','3-24','3-25'],
-		    data:[ 
-			['马航', [23,54,10,0,0,90,18]],
-			['澳大利亚', [34,11,0,103,80,71,40]]
-		    ]
-		}
-	    },
-	    news: [
-		{title: '澳男子称用谷歌地球发现MH370残骸'},
-		{title: '有人声称发现马航MH370残骸?上面全是弹孔?'},
-		{title: '澳工程师声称:MH370残骸已被发现 布满弹孔'},
-		{title: '工程师在谷歌地球发现马航370:残骸布满弹孔'}
-	    ]}
-	]
-	    this.item = this.newslist[0];
+	    })
 	},
     }
 }
@@ -812,7 +753,7 @@ const timeline = {
 		console.log(body);
 		this.page = 1
 		this.timeline_res = body;
-		this.timeline_item = this.timeline_res[this.page];
+		this.timeline_item = this.timeline_res[this.page - 1];
 		this.pages = this.timeline_res.length;
 	    })
 	},
@@ -827,7 +768,7 @@ const timeline = {
 		console.log(body);
 		this.visible = true;
 		this.timeline_res = body;
-		this.timeline_item = this.timeline_res[this.page]
+		this.timeline_item = this.timeline_res[this.page - 1]
 		this.pages = this.timeline_res.length
 	    })
 	},

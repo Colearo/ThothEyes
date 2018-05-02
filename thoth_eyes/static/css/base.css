@@ -156,6 +156,15 @@ a svg {
     height: 90%;
     padding: 5px 10px;
 }
+.item-center .noresult {
+    height: 320px;
+    width: 480px;
+    margin: 10px;
+    margin-left: 15%;
+    color: black;
+    font-size: 250%;
+    font-family: "HeiTi SC","Times New Roman", Times, serif;
+}
 .item-center .newsbox-item {
     display: inline-block;
     float: left;
