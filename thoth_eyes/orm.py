@@ -62,7 +62,13 @@ class ORM :
                 news_item = news_item[0]
             timeline_item['title'] = news_item['Title']
             timeline_item['date'] = news_item['Date'].split(' ')[0]
-            timeline_item['extraction'] = news_item['Content'][:100]
+            paragraphs = news_item['Content'].split('\n')
+            extra = ''
+            for paragraph in paragraphs :
+                if len(paragraph) > 30 :
+                    extra = paragraph
+                    break
+            timeline_item['extraction'] = extra
             timelines.append(timeline_item)
         timelines.sort(key = lambda x:x['date'])
         timelines = timelines[-5:]
@@ -142,6 +148,4 @@ class ORM :
         for subtopic_id in subtopic_ids :
             subtopic_list.append(self.orm_subtopic_by_subtopicid(subtopic_id))
         return subtopic_list
-
-
 
