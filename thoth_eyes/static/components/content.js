@@ -638,11 +638,11 @@ const topic_search = {
 		this.page = 1
 		this.newslist = body
 		if (this.newslist.length > 0) {
-		    has_newsbox = true;
+		    this.has_newsbox = true;
 		    this.item = this.newslist[this.page - 1];
 		} else {
-		    message = 'Sorry. No results'
-		    has_newsbox = false;
+		    this.message = 'Sorry. No results'
+		    this.has_newsbox = false;
 		}
 	    })
 	},
