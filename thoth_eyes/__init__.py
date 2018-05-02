@@ -26,6 +26,9 @@ def create_app(test_config = None) :
     from .controller import timelines
     app.register_blueprint(timelines.bp)
 
+    from .controller import topicsearch
+    app.register_blueprint(topicsearch.bp)
+
     @app.route('/')
     def base() :
         return render_template('base.html')

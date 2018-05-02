@@ -65,7 +65,7 @@ class ORM :
             paragraphs = news_item['Content'].split('\n')
             extra = ''
             for paragraph in paragraphs :
-                if len(paragraph) > 30 :
+                if len(paragraph) > 50 :
                     extra = paragraph
                     break
             timeline_item['extraction'] = extra
@@ -131,7 +131,7 @@ class ORM :
                 paragraphs = news_item['Content'].split('\n')
                 extra = ''
                 for paragraph in paragraphs :
-                    if len(paragraph) > 30 :
+                    if len(paragraph) > 50 :
                         extra = paragraph
                         break
                 timeline_item['extraction'] = extra
