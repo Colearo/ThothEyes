@@ -170,13 +170,12 @@ class ThothEyes :
             else :
                 subtopiced_old_news.extend(self.find_subtopics_by_date(date))
 
-        with ProcessPoolExecutor(max_workers = 4) as executor :
-            for subtopics in executor.map(window_cluster, 
-                ((date, chunk) for date, chunk in 
-                unclustered_chunks)) :
-                if subtopics is None or len(subtopics[0]) == 0 :
-                    continue
-                clustered_old_news.append(subtopics)
+        for subtopics in map(window_cluster, 
+            ((date, chunk) for date, chunk in 
+            unclustered_chunks)) :
+            if subtopics is None or len(subtopics[0]) == 0 :
+                continue
+            clustered_old_news.append(subtopics)
 
         for date, subs in clustered_old_news :
             self.redis.sadd("clustered_news_date", date)
@@ -291,6 +290,8 @@ class ThothEyes :
         for item in self.redis.sscan_iter("newsid_subtopicid_index", match = '*_' + str(subtopic_id)) :
             news_id = int(item.split(sep = '_')[0])
             news_item = self.redis.hget("news", news_id)
+            if news_item is None :
+                continue
             news_item = eval(news_item)
             news_item['Id'] = news_id
             news.append(news_item)
@@ -301,6 +302,8 @@ class ThothEyes :
         subtopic_ids = self.find_subtopicids_by_date(date)
         for subtopic_id in subtopic_ids :
             date, hotspot = self.find_hotspot_by_subtopicid(subtopic_id)
+            if date is None :
+                continue
             title = self.find_title_by_subtopicid(subtopic_id)
             topsubtopic_dict[subtopic_id] = (hotspot, title)
         topsubtopic_list = sorted(iter(topsubtopic_dict.items()), key = lambda d:d[1][0], reverse = True)
@@ -312,6 +315,8 @@ class ThothEyes :
         subtopic_ids = self.find_subtopicids_by_date(date)
         for subtopic_id in subtopic_ids :
             keywords_hi_tuple = self.find_keywordshi_by_subtopicid(subtopic_id)
+            if keywords_hi_tuple is None :
+                continue
             subtopic_title = self.find_title_by_subtopicid(subtopic_id)
             for keyword, values in dict(keywords_hi_tuple[1]).items() :
                 try :
@@ -378,18 +383,27 @@ class ThothEyes :
         return keywords_hi_tuple
 
     def find_hotspot_by_subtopicid(self, subtopic_id) :
-        subtopic_attr = eval(self.redis.hget("subtopics_attr", subtopic_id))
+        subtopic_attr = self.redis.hget("subtopics_attr", subtopic_id)
+        if subtopic_attr is None :
+            return None, None
+        subtopic_attr = eval(subtopic_attr)
         hotspot = subtopic_attr['Hotspot']
         date = subtopic_attr['Date']
         return date, hotspot
 
     def find_title_by_subtopicid(self, subtopic_id) :
-        subtopic_attr = eval(self.redis.hget("subtopics_attr", subtopic_id))
+        subtopic_attr = self.redis.hget("subtopics_attr", subtopic_id)
+        if subtopic_attr is None :
+            return None
+        subtopic_attr = eval(subtopic_attr)
         title = subtopic_attr['Title']
         return title
 
     def find_keywords_by_subtopicid(self, subtopic_id) :
-        subtopic_attr = eval(self.redis.hget("subtopics_attr", subtopic_id))
+        subtopic_attr = self.redis.hget("subtopics_attr", subtopic_id)
+        if subtopic_attr is None :
+            return None
+        subtopic_attr = eval(subtopic_attr)
         keywords = subtopic_attr['Keywords']
         return keywords
 
@@ -399,6 +413,8 @@ class ThothEyes :
         hotspot_dict = dict()
         for item_subtopic_id in topic :
             cur_date, hotspot = self.find_hotspot_by_subtopicid(item_subtopic_id)
+            if cur_date is None :
+                continue
             cur_date = datetime.strptime(cur_date, '%Y/%m/%d %H:%M')
             cur_date = cur_date.strftime('%Y/%m/%d')
             if item_subtopic_id == subtopic_id :
