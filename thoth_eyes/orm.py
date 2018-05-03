@@ -14,7 +14,10 @@ class ORM :
         selected = topsubtopics[(page - 1) * size : page * size]
         subtopic_list = list()
         for subtopic_id in selected :
-            subtopic_list.append(self.orm_subtopic_by_subtopicid(subtopic_id))
+            subtopic = self.orm_subtopic_by_subtopicid(subtopic_id)
+            if subtopic is None :
+                continue
+            subtopic_list.append(subtopic)
         return subtopic_list
 
     def orm_subtopicstotal_by_date(self, date) :
@@ -25,7 +28,10 @@ class ORM :
         topsubtopics = [subtopic_id for subtopic_id, tuple in self.te.find_topsubtopics_by_date(date)]
         subtopic_list = list()
         for subtopic_id in topsubtopics :
-            subtopic_list.append(self.orm_subtopic_by_subtopicid(subtopic_id))
+            subtopic = self.orm_subtopic_by_subtopicid(subtopic_id)
+            if subtopic is None :
+                continue
+            subtopic_list.append(subtopic)
         return subtopic_list
 
         return len(topsubtopics)
@@ -52,6 +58,8 @@ class ORM :
         subtopic_item['news'] = news_list
 
         topic = self.te.find_timeline_by_subtopicid(subtopic_id)
+        if topic is None :
+            return None
         timelines = list()
         for subtopic in topic :
             timeline_item = dict()
@@ -146,6 +154,9 @@ class ORM :
         subtopic_ids = self.te.find_subtopicids_by_search(search_words)
         subtopic_list = list()
         for subtopic_id in subtopic_ids :
-            subtopic_list.append(self.orm_subtopic_by_subtopicid(subtopic_id))
+            subtopic = self.orm_subtopic_by_subtopicid(subtopic_id)
+            if subtopic is None :
+                continue
+            subtopic_list.append(subtopic)
         return subtopic_list
 
