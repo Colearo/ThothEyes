@@ -158,5 +158,7 @@ class ORM :
             if subtopic is None :
                 continue
             subtopic_list.append(subtopic)
+            if len(subtopic_list) >= 12 :
+                break
         return subtopic_list
 
