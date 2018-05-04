@@ -44,7 +44,7 @@ const todaynews = {
     <news-modal 
     v-if="has_news_detail"
     v-on:close="handle_news_detail_close">
-    <p slot="content">{{news_detail.content}}</p>
+    <p slot="content" v-html="news_detail.content"></p>
     </news-modal>
     </div>
     `,
@@ -125,6 +125,7 @@ const todaynews = {
 	},
 	handle_news_detail : function(payload) {
 	    this.news_detail = payload.news_item;
+	    this.news_detail.content = this.news_detail.content.replace(/\n/g, "<br/>");
 	    this.has_news_detail = true;
 	},
 	handle_news_detail_close : function() {
