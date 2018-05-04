@@ -812,6 +812,16 @@ a svg {
     border-radius: 3px;
     text-align: center;
 }
+.modal-container h3 {
+    display: block;
+    width: 35%;
+    color: white;
+    font-size: 90%;
+    padding: 3px;
+    background-color: #222;
+    text-align: left;
+    float: right;
+}
 .modal-close-button {
     position: absolute;
     right: -25px;
