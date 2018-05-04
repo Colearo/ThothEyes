@@ -15,6 +15,7 @@ const todaynews = {
     	v-bind:index="index"
     	v-on:hotspot_clk="handle_hotspot_clk"
     	v-on:timeline_clk="handle_timeline_clk"
+    	v-on:news_detail="handle_news_detail"
     	class="slide-item"/>
     	<div
     	v-if="has_hotspot_graph"
@@ -40,6 +41,10 @@ const todaynews = {
     	v-on:change="page_change">
     	</dot-paging>
     </div>
+    <news-modal 
+    v-if="has_news_modal"
+    v-on:close="handle_news_detail_close">
+    </news-modal>
     </div>
     `,
     data : function() {
@@ -51,10 +56,12 @@ const todaynews = {
 	    direction : "slide-right",
 	    has_hotspot_graph : false,
 	    has_timeline_graph : false,
+	    has_news_detail : false,
 	    templist : [],
 	    newslist: [],
 	    timelines: {},
 	    hotspot: {},
+	    news_detail: {}
 	}
     },
     methods : {
@@ -114,6 +121,13 @@ const todaynews = {
 		this.has_timeline_graph = false;
 		this.newslist = this.templist;
 	    }
+	},
+	handle_news_detail : function(payload) {
+	    this.news_detail = payload.news_item;
+	    this.has_news_detail = true;
+	},
+	handle_news_detail_close : function() {
+	    this.has_news_detail = false;
 	}
     },
     created : function() {
@@ -146,7 +160,7 @@ const news_item = {
 	<div class="newsbox-list">
 	    <ul>
 		<li v-for="item in news">
-		    <a>{{item.title}}</a>
+		    <a v-on:click="detail(item)">{{item.title}}</a>
 		</li>
 	    </ul>
 	</div>
@@ -180,6 +194,12 @@ const news_item = {
 		    clicked : this.is_timeline_clk,
 		    index : this.index
 		});
+	    }
+	},
+	detail: function(item) {
+	    console.log(item)
+	    this.$emit('news_detail', {
+		news_item : item
 	    }
 	}
     }
@@ -538,6 +558,24 @@ const hotspot_graph = {
     ]
 }
 
+const news_modal = {
+    template:`
+    <transition name="modal">
+    <div class="modal-mask">
+    <div class="modal-wrapper">
+    <div class="modal-container">
+    <slot name="content">
+    <button 
+    class="modal-close-button"
+    v-on:click="$emit('close')">OK</button>
+    </slot>
+    </div>
+    </div>
+    </div>
+    </transition>
+    `
+}
+
 const topic_search = {
     template: `
     <div class="column content">
@@ -788,6 +826,7 @@ Vue.component('wordcloud', wordcloud);
 Vue.component('timeline-graph', timeline_graph);
 Vue.component('hotspot-graph', hotspot_graph);
 Vue.component('searchbox', search_box);
+Vue.component('news-modal', news_modal);
 
 var router = new VueRouter({
     routes: [
