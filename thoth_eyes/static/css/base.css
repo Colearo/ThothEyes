@@ -779,21 +779,52 @@ a svg {
     transition: opacity .3s ease;
 }
 .modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+    width: 600px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
 }
 .modal-close-button {
-  float: right;
+    position: absolute;
+    right: -25px;
+    top: -25px;
+    width: 50px;
+    height: 50px;
+    background-color: #333333;
+    border-radius: 25px;
+    box-shadow: 2px 2px 5px 0px black;
+    cursor: pointer;
+}
+.modal-close-button:hover {
+    background-color: red;
+}
+.modal-close-button:before {
+    position: absolute;
+    content: '';
+    width: 30px;
+    height: 10px;
+    background: white;
+    transform: rotate(45deg);
+    top: 20px;
+    left: 10px;
+}
+.modal-close-button:after {
+    position: absolute;
+    content: '';
+    width: 30px;
+    height: 10px;
+    background: white;
+    transform: rotate(-45deg);
+    top: 20px;
+    left: 10px;
 }
 .modal-enter {
   opacity: 0;

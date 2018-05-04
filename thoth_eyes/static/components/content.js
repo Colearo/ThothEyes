@@ -565,10 +565,10 @@ const news_modal = {
     <div class="modal-mask">
     <div class="modal-wrapper">
     <div class="modal-container">
-    <slot name="content"></slot>
     <button 
     class="modal-close-button"
-    v-on:click="$emit('close')">OK</button>
+    v-on:click="$emit('close')"></button>
+    <slot name="content"></slot>
     </div>
     </div>
     </div>
