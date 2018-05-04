@@ -783,7 +783,11 @@ a svg {
     vertical-align: middle;
 }
 .modal-container {
+    position: relative;
+    top: 0;
+    left: 0;
     width: 600px;
+    height: 400px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;
@@ -791,9 +795,10 @@ a svg {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
+    overflow: scroll;
 }
 .modal-close-button {
-    position: relative;
+    position: absolute;
     right: -25px;
     top: -25px;
     width: 50px;
@@ -807,7 +812,7 @@ a svg {
     background-color: red;
 }
 .modal-close-button:before {
-    position: relative;
+    position: absolute;
     content: '';
     width: 30px;
     height: 10px;
@@ -817,7 +822,7 @@ a svg {
     left: 10px;
 }
 .modal-close-button:after {
-    position: relative;
+    position: absolute;
     content: '';
     width: 30px;
     height: 10px;
