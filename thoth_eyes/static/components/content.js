@@ -42,7 +42,7 @@ const todaynews = {
     	</dot-paging>
     </div>
     <news-modal 
-    v-if="has_news_modal"
+    v-if="has_news_detail"
     v-on:close="handle_news_detail_close">
     </news-modal>
     </div>
