@@ -795,7 +795,6 @@ a svg {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
-    overflow: scroll;
 }
 .modal-close-button {
     position: absolute;
@@ -803,13 +802,13 @@ a svg {
     top: -25px;
     width: 50px;
     height: 50px;
-    background-color: #333333;
+    background: silver;
     border-radius: 25px;
     box-shadow: 2px 2px 5px 0px black;
     cursor: pointer;
 }
 .modal-close-button:hover {
-    background-color: red;
+    background: red;
 }
 .modal-close-button:before {
     position: absolute;
