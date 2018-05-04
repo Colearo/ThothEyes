@@ -44,7 +44,7 @@ const todaynews = {
     <news-modal 
     v-if="has_news_detail"
     v-on:close="handle_news_detail_close">
-    <h1 slot="headline">{{news_detail.title}}</h1>
+    <h2 slot="headline">{{news_detail.title}}</h1>
     <p slot="content" v-html="news_detail.content"></p>
     </news-modal>
     </div>

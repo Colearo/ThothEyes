@@ -803,9 +803,10 @@ a svg {
     font-family: Helvetica, Arial, sans-serif;
     overflow: scroll;
 }
-.modal-container h1 {
+.modal-container h2 {
     margin-top: 0;
     color: black;
+    font-size: 110%;
     padding: 5px;
     border: 1px solid black;
     border-radius: 3px;
