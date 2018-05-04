@@ -44,6 +44,7 @@ const todaynews = {
     <news-modal 
     v-if="has_news_detail"
     v-on:close="handle_news_detail_close">
+    <p slot="content">{{news_detail.content}}</p>
     </news-modal>
     </div>
     `,
@@ -564,11 +565,10 @@ const news_modal = {
     <div class="modal-mask">
     <div class="modal-wrapper">
     <div class="modal-container">
-    <slot name="content">
+    <slot name="content"></slot>
     <button 
     class="modal-close-button"
     v-on:click="$emit('close')">OK</button>
-    </slot>
     </div>
     </div>
     </div>
