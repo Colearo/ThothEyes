@@ -793,7 +793,7 @@ a svg {
     font-family: Helvetica, Arial, sans-serif;
 }
 .modal-close-button {
-    position: absolute;
+    position: relative;
     right: -25px;
     top: -25px;
     width: 50px;
@@ -807,7 +807,7 @@ a svg {
     background-color: red;
 }
 .modal-close-button:before {
-    position: absolute;
+    position: relative;
     content: '';
     width: 30px;
     height: 10px;
@@ -817,7 +817,7 @@ a svg {
     left: 10px;
 }
 .modal-close-button:after {
-    position: absolute;
+    position: relative;
     content: '';
     width: 30px;
     height: 10px;
