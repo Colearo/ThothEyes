@@ -200,7 +200,7 @@ const news_item = {
 	    console.log(item)
 	    this.$emit('news_detail', {
 		news_item : item
-	    }
+	    })
 	}
     }
 
