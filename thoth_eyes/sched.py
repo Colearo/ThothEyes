@@ -286,14 +286,14 @@ class ThothEyes :
         self.redis.srem("clustered_news_date", date)
 
     def del_news_by_date(self, date) :
-        date = datetime.strptime(date, '%Y/%m/%d')
-        end_date = date + timedelta(days = 1)
+        start_date = datetime.strptime(date, '%Y/%m/%d')
+        end_date = start_date + timedelta(days = 1)
         for item in self.redis.sscan_iter('news_content') :
             d = eval(item)
             date = d.get('Date')
             if (date is not None and
         datetime.strptime(date, '%Y/%m/%d %H:%M') < end_date and
-        datetime.strptime(date, '%Y/%m/%d %H:%M') >= date) :
+        datetime.strptime(date, '%Y/%m/%d %H:%M') >= start_date) :
                 self.redis.srem('news_content', d)
                 print(d['Title'])
 
