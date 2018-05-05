@@ -295,6 +295,15 @@ class ThothEyes :
         datetime.strptime(date, '%Y/%m/%d %H:%M') >= start_date) :
                 self.redis.srem('news_content', d)
                 print(d['Title'])
+        for item in self.redis.hscan_iter('news') :
+            d = eval(item[1])
+            date = d.get('Date')
+            if (date is not None and
+        datetime.strptime(date, '%Y/%m/%d %H:%M') < end_date and
+        datetime.strptime(date, '%Y/%m/%d %H:%M') >= start_date) :
+                self.redis.hdel('news', int(item[0]))
+                print(d['Title'])
+
 
     def find_news_by_subtopicid(self, subtopic_id) :
         news = list()
