@@ -37,8 +37,7 @@ def window_cluster(chunk_data) :
 class ThothEyes :
 
     def __init__(self) :
-        # self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
-        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True)
+        self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
 
