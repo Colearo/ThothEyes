@@ -799,9 +799,9 @@ a svg {
     display: block;
     max-height: 400px;
     color: #222222;
-    font-size: 60%;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size: 90%;
     overflow: scroll;
+    font-family: "HeiTi SC","Times New Roman", Times, serif;
 }
 .modal-container h2 {
     margin-top: 0;
@@ -811,6 +811,7 @@ a svg {
     border: 1px solid black;
     border-radius: 3px;
     text-align: center;
+    font-family: "HeiTi SC","Times New Roman", Times, serif;
 }
 .modal-container h3 {
     display: block;
@@ -821,6 +822,7 @@ a svg {
     background-color: #222;
     text-align: center;
     float: right;
+    font-family: "HeiTi SC","Times New Roman", Times, serif;
 }
 .modal-close-button {
     position: absolute;
