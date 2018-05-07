@@ -13,12 +13,12 @@ from huhu_seg.topic import Topic
 from huhu_seg.textrank import TextRank
 
 select_newsid_by_date = (
-        "SELECT news_id FROM news"
-        "WHERE news_date BETWEEN %s AND %s"
+        "SELECT news_id FROM news "
+        "WHERE DATE(news_date) BETWEEN DATE(%s) AND DATE(%s)"
         )
 
 select_news_by_id = (
-        "SELECT news_title, news_date, news_content, news_source, news_link FROM news"
+        "SELECT news_title, news_date, news_content, news_source, news_link FROM news "
         "WHERE news_id=%s"
         )
 
@@ -141,7 +141,7 @@ class ThothEyes :
 
     def init_old_news(self, days_window) :
         today = date.today()
-        today = datetime(today.year, today.month, today.day)
+        today = datetime(today.year, today.month, today.day) - timedelta(days = 1)
         date_from = today - timedelta(days = days_window)
         data = self.get_news(date_from, today)
         return data, date_from
