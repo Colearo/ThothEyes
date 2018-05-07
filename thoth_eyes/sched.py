@@ -49,7 +49,7 @@ def window_cluster(chunk_data) :
 class ThothEyes :
 
     def __init__(self) :
-        DB_NAME = 'db_news'
+        self.DB_NAME = 'db_news'
         self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
@@ -129,7 +129,7 @@ class ThothEyes :
 
     def get_news(self, date_from, date_to) :
         data = list()
-        cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
+        cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = self.DB_NAME)
         cursor = cnx.cursor()
         cursor.execute(select_newsid_by_date, (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))) 
         for news_id_tuple in cursor :
@@ -329,7 +329,7 @@ class ThothEyes :
     def find_news_by_newsid(self, news_id) :
         news_item = self.redis.hget('news', int(news_id))
         if news_item is None :
-            cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
+            cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = self.DB_NAME)
             cursor_item = cnx.cursor()
             try :
                 cursor_item.execute(select_news_by_id, str(news_id))
