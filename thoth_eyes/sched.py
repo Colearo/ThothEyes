@@ -14,7 +14,7 @@ from huhu_seg.textrank import TextRank
 
 select_newsid_by_date = (
         "SELECT news_id FROM news"
-        "WHERE DATE(news_date) BETWEEN DATE(%s) AND DATE(%s)"
+        "WHERE news_date BETWEEN DATE(%s) AND DATE(%s)"
         )
 
 select_news_by_id = (
