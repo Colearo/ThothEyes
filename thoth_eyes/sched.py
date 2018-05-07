@@ -64,6 +64,9 @@ class ThothEyes :
         self.subtopiced_news = subtopiced_old_news
         self.chunked_news = chunked_old_news
 
+    def stop(self) :
+        self.cnx.close()
+
     def refresh_today_news(self) :
         today_news, today = self.init_today_news()
         today = today.strftime('%Y/%m/%d')
