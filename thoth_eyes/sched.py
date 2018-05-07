@@ -131,7 +131,7 @@ class ThothEyes :
         data = list()
         cursor = self.cnx.cursor()
         cursor.execute(select_newsid_by_date, (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))) 
-        for news_id in cursor :
+        for (news_id) in cursor :
             d = self.find_news_by_newsid(news_id)
             data.append(d)
         cursor.close()
