@@ -9,6 +9,7 @@ start = time.time()
 thoth_eyes = ThothEyes()
 thoth_eyes.initialize()
 thoth_eyes.refresh_today_news()
+thoth_eyes.stop()
 
 duration = time.time() - start
 print('Runs %.2f s' % duration)
