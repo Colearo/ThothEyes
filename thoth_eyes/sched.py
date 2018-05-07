@@ -131,8 +131,8 @@ class ThothEyes :
         data = list()
         cursor = self.cnx.cursor()
         cursor.execute(select_newsid_by_date, (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))) 
-        for (news_id) in cursor :
-            d = self.find_news_by_newsid(news_id)
+        for news_id_tuple in cursor :
+            d = self.find_news_by_newsid(news_id_tuple[0])
             data.append(d)
         cursor.close()
         self.redis.expire('news', 3600)
