@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import redis
+import mysql.connector
 import traceback
 from datetime import datetime, timedelta, date
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
@@ -10,6 +11,16 @@ from huhu_seg.clustering import Cluster, Timeline
 from huhu_seg.hotspot import HotSpot
 from huhu_seg.topic import Topic
 from huhu_seg.textrank import TextRank
+
+select_newsid_by_date = (
+        "SELECT news_id FROM news"
+        "WHERE DATE(news_date) BETWEEN DATE(%s) AND DATE(%s)"
+        )
+
+select_news_by_id = (
+        "SELECT news_title, news_date, news_content, news_source, news_link FROM news"
+        "WHERE news_id=%s"
+        )
 
 def window_cluster(chunk_data) :
     subtopics = list()
@@ -37,6 +48,8 @@ def window_cluster(chunk_data) :
 class ThothEyes :
 
     def __init__(self) :
+        DB_NAME = 'db_news'
+        self.cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
         self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
@@ -113,19 +126,13 @@ class ThothEyes :
 
     def get_news(self, date_from, date_to) :
         data = list()
-        for item in self.redis.hscan_iter('news') :
-            d = eval(item[1])
-            content = d.get('Content')
-            if content is None or content.strip() == '':
-                continue
-            date = d.get('Date')
-            if (date is None or 
-        datetime.strptime(date, '%Y/%m/%d %H:%M') < date_from or
-        datetime.strptime(date, '%Y/%m/%d %H:%M') >= date_to) :
-                continue
-            d['Id'] = item[0];
-            print("News: ", d['Title'])
+        cursor = self.cnx.cursor()
+        cursor.execute(select_newsid_by_date, (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))) 
+        for news_id in cursor :
+            d = self.find_news_by_newsid(news_id)
             data.append(d)
+        cursor.close()
+        self.redis.expire('news', 3600)
         data.sort(key= lambda d:d['Date'])
         return data
 
@@ -304,18 +311,41 @@ class ThothEyes :
                 self.redis.hdel('news', int(item[0]))
                 print(d['Title'])
 
-
     def find_news_by_subtopicid(self, subtopic_id) :
         news = list()
         for item in self.redis.sscan_iter("newsid_subtopicid_index", match = '*_' + str(subtopic_id)) :
             news_id = int(item.split(sep = '_')[0])
-            news_item = self.redis.hget("news", news_id)
+            news_item = self.find_news_by_newsid(news_id)
             if news_item is None :
                 continue
-            news_item = eval(news_item)
-            news_item['Id'] = news_id
             news.append(news_item)
         return news
+
+    def find_news_by_newsid(self, news_id) :
+        news_item = self.redis.hget('news', int(news_id))
+        if news_item is None :
+            cursor_item = self.cnx.cursor()
+            try :
+                cursor_item.execute(select_news_by_id, str(news_id))
+            except mysql.connector.Error as err :
+                print(err.msg)
+            except Exception as e :
+                print(e)
+            else :
+                news_title, news_date, news_content, news_source, news_link = cursor_item.fetchone()
+                news_date = datetime.strptime(news_date, '%Y-%m-%d %H:%M:%S')
+                news_date = news_date.strftime('%Y/%m/%d %H:%M')
+                news_dict = dict()
+                news_dict['Title'] = news_title
+                news_dict['Date'] = news_date
+                news_dict['Content'] = news_content
+                news_dict['Source'] = news_source
+                news_dict['Link'] = news_link
+                news_dict['Id'] = int(news_id)
+                self.redis.hset('news', int(news_id), news_dict)
+                news_item = news_dict
+            cursor_item.close()
+        return news_item
 
     def find_topsubtopics_by_date(self, date) :
         topsubtopic_dict = dict()

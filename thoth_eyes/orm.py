@@ -50,6 +50,7 @@ class ORM :
             item['title'] = news_item['Title']
             item['content'] = news_item['Content']
             item['date'] = news_item['Date']
+            item['link'] = news_item['Link']
             if news_item.get('Source') is not None :
                 item['source'] = news_item['Source']
             if len(news_list) == 6 :
