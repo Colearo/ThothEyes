@@ -49,7 +49,6 @@ class ThothEyes :
 
     def __init__(self) :
         DB_NAME = 'db_news'
-        self.cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
         self.redis = redis.Redis(host = 'localhost', port = 6379, decode_responses = True, password="lemonHUHUHE")
         self.hotspot_inst = HotSpot()
         self.subtopiced_news = list()
@@ -129,12 +128,14 @@ class ThothEyes :
 
     def get_news(self, date_from, date_to) :
         data = list()
-        cursor = self.cnx.cursor()
+        cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
+        cursor = cnx.cursor()
         cursor.execute(select_newsid_by_date, (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))) 
         for news_id_tuple in cursor :
             d = self.find_news_by_newsid(news_id_tuple[0])
             data.append(d)
         cursor.close()
+        cnx.close()
         self.redis.expire('news', 3600)
         data.sort(key= lambda d:d['Date'])
         return data
@@ -327,7 +328,8 @@ class ThothEyes :
     def find_news_by_newsid(self, news_id) :
         news_item = self.redis.hget('news', int(news_id))
         if news_item is None :
-            cursor_item = self.cnx.cursor()
+            cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = DB_NAME)
+            cursor_item = cnx.cursor()
             try :
                 cursor_item.execute(select_news_by_id, str(news_id))
             except mysql.connector.Error as err :
@@ -348,6 +350,7 @@ class ThothEyes :
                 self.redis.hset('news', int(news_id), news_dict)
                 news_item = news_dict
             cursor_item.close()
+            cnx.close()
         return news_item
 
     def find_topsubtopics_by_date(self, date) :
