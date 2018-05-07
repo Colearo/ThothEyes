@@ -22,6 +22,7 @@ select_news_by_id = (
         "WHERE news_id=%s"
         )
 
+
 def window_cluster(chunk_data) :
     subtopics = list()
     try :
