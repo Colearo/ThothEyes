@@ -3,8 +3,7 @@
 
 import time
 import datetime
-from thoth_eyes.sched import ThothEyes
-from thoth_eyes.orm import ORM
+import mysql.connector
 
 start = time.time()
 select_newsid_by_date = (
