@@ -162,7 +162,7 @@ a svg {
     height: 200px;
     width: 400px;
     margin: 10px;
-    margin-left: 15%;
+    margin-left: 17%;
     color: black;
     font-size: 250%;
     font-family: "HeiTi SC","Times New Roman", Times, serif;
@@ -170,7 +170,7 @@ a svg {
 .item-center .newsbox-item {
     display: inline-block;
     float: left;
-    height: 320px;
+    min-height: 320px;
     width: 480px;
     margin: 10px 10px;
     margin-left: 25%;
@@ -396,7 +396,8 @@ a svg {
     border-left: 2px solid black;
     float: right;
     padding: 10px;
-    min-height: 500px;
+    max-height: 550px;
+    overflow: scroll;
     width: 35%;
 }
 .newslist ul {
