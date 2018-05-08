@@ -351,6 +351,8 @@ class ThothEyes :
                 news_item = news_dict
             cursor_item.close()
             cnx.close()
+        else :
+            news_item = eval(news_item)
         return news_item
 
     def find_topsubtopics_by_date(self, date) :
