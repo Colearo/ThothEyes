@@ -237,6 +237,8 @@ class ThothEyes :
             keywords_hi = self.hotspot_inst.computing_keywords(keywords_set, days_corpura)
             print('******')
             print('TopicID: ', subtopic_id)
+            for subtopicid_keyword, value in self.redis.hscan_iter("subtopicid_keyword_index", str(subtopic_id) + '_*') :
+                self.redis.hdel("subtopicid_keyword_index", subtopicid_keyword)
             for keyword, hi in iter(keywords_hi.items()) : 
                 hi_dict2list = list(hi.items())
                 hi_dict2list.sort(key=lambda d:d[0])
