@@ -339,7 +339,6 @@ class ThothEyes :
                 print(e)
             else :
                 news_title, news_date, news_content, news_source, news_link = cursor_item.fetchone()
-                news_date = datetime.strptime(news_date, '%Y-%m-%d %H:%M:%S')
                 news_date = news_date.strftime('%Y/%m/%d %H:%M')
                 news_dict = dict()
                 news_dict['Title'] = news_title
