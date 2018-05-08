@@ -332,7 +332,7 @@ class ThothEyes :
             cnx = mysql.connector.connect(user = 'root', password = 'lemon', database = self.DB_NAME)
             cursor_item = cnx.cursor()
             try :
-                cursor_item.execute(select_news_by_id, str(news_id))
+                cursor_item.execute(select_news_by_id, (news_id, ))
             except mysql.connector.Error as err :
                 print(err.msg)
             except Exception as e :
