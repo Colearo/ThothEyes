@@ -137,7 +137,7 @@ class ThothEyes :
             data.append(d)
         cursor.close()
         cnx.close()
-        self.redis.expire('news', 3600)
+        self.redis.expire('news', 5400)
         data.sort(key= lambda d:d['Date'])
         return data
 
