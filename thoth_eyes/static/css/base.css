@@ -157,14 +157,12 @@ a svg {
     padding: 5px 10px;
 }
 .item-center .noresult {
-    display: inline-block;
-    float: left;
+    display: block;
     height: 200px;
     width: 400px;
-    margin: 10px;
-    margin-left: 17%;
+    margin: 10px auto;
     color: black;
-    font-size: 250%;
+    font-size: 200%;
     font-family: "HeiTi SC","Times New Roman", Times, serif;
 }
 .item-center .newsbox-item {

@@ -587,6 +587,13 @@ const topic_search = {
     <searchbox
     v-on:searched="get_search_res">
     </searchbox>
+    <news-modal 
+    v-if="has_news_detail"
+    v-on:close="handle_news_detail_close">
+    <h2 slot="headline">{{news_detail.title}}</h2>
+    <p slot="content" v-html="news_detail.content"></p>
+    <h3 slot="footer">{{news_detail.date}}</h3>
+    </news-modal>
     <div 
     class="clearfix search-response"
     v-if="is_searched" 
@@ -603,6 +610,7 @@ const topic_search = {
     	v-bind:hotspot="item.hotspot.index"
     	v-on:hotspot_clk="handle_hotspot_clk"
     	v-on:timeline_clk="handle_timeline_clk"
+    	v-on:news_detail="handle_news_detail"
     	v-bind:class="{'newsbox-item-withgraph': has_hotspot_graph||has_timeline_graph}">
     	</news-item>
     	<h1 class="noresult"
@@ -639,8 +647,10 @@ const topic_search = {
 	    has_hotspot_graph: false,
 	    has_timeline_graph: false,
 	    has_newsbox: false,
+	    has_news_detail: false,
 	    message: 'Please wait',
 	    search_words: '',
+	    news_detail: {},
 	    newslist: [],
 	    item: {},
 	    page: 1
@@ -689,6 +699,14 @@ const topic_search = {
 		}
 	    })
 	},
+	handle_news_detail : function(payload) {
+	    this.news_detail = payload.news_item;
+	    this.news_detail.content = this.news_detail.content.replace(/\n/g, "<br/>");
+	    this.has_news_detail = true;
+	},
+	handle_news_detail_close : function() {
+	    this.has_news_detail = false;
+	}
     }
 }
 
