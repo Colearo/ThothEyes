@@ -365,6 +365,9 @@ class ThothEyes :
             if date is None :
                 continue
             title = self.find_title_by_subtopicid(subtopic_id)
+            topic = self.find_timeline_by_subtopicid(subtopic_id)
+            if topic is None :
+                continue
             topsubtopic_dict[subtopic_id] = (hotspot, title)
         topsubtopic_list = sorted(iter(topsubtopic_dict.items()), key = lambda d:d[1][0], reverse = True)
         return topsubtopic_list
@@ -402,7 +405,7 @@ class ThothEyes :
 
     def find_timeline_by_subtopicid(self, subtopic_id) :
         sscan = [item for item in self.redis.sscan_iter("subtopicid_topicid_index", str(subtopic_id) + '_*')]
-        if len(sscan) != 0 :
+        if len(sscan) > 0 :
             topic_id = sscan[0].split('_')[1]
         else :
             return None
