@@ -396,7 +396,7 @@ a svg {
     padding: 10px;
     max-height: 550px;
     overflow: scroll;
-    width: 35%;
+    width: 32%;
 }
 .newslist h1 {
     display: block;
@@ -415,7 +415,7 @@ a svg {
 .newslist ol {
     list-style-type: decimal;
     margin: 0;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 .newslist li a {
     display: block;
