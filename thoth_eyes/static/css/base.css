@@ -464,7 +464,7 @@ a svg {
     height: 1.5px;
     background-color: black;
     float: right;
-    margin-top: 7.5%;
+    margin-top: 6%;
     margin-right: -5%;
 }
 .timeline-item-left .timeline-title {
@@ -506,7 +506,7 @@ a svg {
     height: 1.5px;
     background-color: black;
     float: left;
-    margin-top: 7%;
+    margin-top: 6%;
     margin-left: -5%;
 }
 .timeline-item-right .timeline-title {
