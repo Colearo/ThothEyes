@@ -415,7 +415,7 @@ a svg {
 .newslist ol {
     list-style-type: decimal;
     margin: 0;
-    padding: 0;
+    padding-left: 10px;
 }
 .newslist li a {
     display: block;
