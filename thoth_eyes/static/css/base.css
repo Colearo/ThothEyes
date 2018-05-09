@@ -398,8 +398,22 @@ a svg {
     overflow: scroll;
     width: 35%;
 }
+.newslist h1 {
+    display: block;
+    width: 100%;
+    color: black;
+    font-size: 100%;
+    margin-bottom: 20px;
+    font-family: "HeiTi", "Times New Roman", Times, serif;
+    text-align: center;
+}
 .newslist ul {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.newslist ol {
+    list-style-type: decimal;
     margin: 0;
     padding: 0;
 }

@@ -407,7 +407,8 @@ const hotspot = {
     <wordcloud
     canvas_id="cloud-hotspot"/>
     <div class="newslist">
-	<ul>
+    	<h1>话题排行榜</h1>
+	<ol>
 	    <li v-for="item in subtopics">
 		<a>{{item.title}}</a>
 	    </li>
