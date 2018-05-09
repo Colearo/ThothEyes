@@ -559,8 +559,8 @@ a svg {
     border: 1px solid black;
     border-radius: 50%;
     background-color: transparent;
-    margin-top: 3.1%;
-    margin-bottom: 10%;
+    margin-top: 2%;
+    margin-bottom: 3%;
 }
 .timeline-item-circle a {	
     position: absolute;
