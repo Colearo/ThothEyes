@@ -361,16 +361,16 @@ a svg {
 .wordcloud span .tooltip {
     visibility: hidden;
     min-width: 100%;
-    font-size: 36px;
+    font-size: 28px;
     background-color: #333333;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
     position: absolute;
-    z-index: 9998;
-    bottom: 115%;
-    left: 50%;
+    z-index: 1;
+    bottom: 110%;
+    left: 55%;
     margin-left: -60px;
     opacity: 0;
     transition: opacity 1s;
