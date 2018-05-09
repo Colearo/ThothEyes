@@ -35,7 +35,7 @@ def window_cluster(chunk_data) :
             corpura = h.flat(cluster)
             corpura.sort(key= lambda d:d['Date'])
             content = ''.join(corpus['Content'] for corpus in corpura)
-            title = corpura[0]['Title']
+            title = corpura[-1]['Title']
             t = Topic()
             subtopic, keywords = t.gen_topic(content, title)
             subtopics.append((corpura,(subtopic, hotspot, keywords)))
