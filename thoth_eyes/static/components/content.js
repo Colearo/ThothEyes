@@ -412,7 +412,7 @@ const hotspot = {
 	    <li v-for="item in subtopics">
 		<a>{{item.title}}</a>
 	    </li>
-	</ul>
+	</ol>
     </div>
     </div>
     `,
