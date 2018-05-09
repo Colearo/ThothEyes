@@ -8,6 +8,12 @@ from ..orm import ORM
 orm = ORM()
 bp = Blueprint('subtopics', __name__, url_prefix='/api/subtopics')
 
+@bp.route('/id/<int:subtopicid>', methods=["GET"])
+def id_subtopicid(subtopicid) :
+    d = orm.orm_subtopic_by_subtopicid(subtopicid)
+    return json.jsonify(d)
+
+
 @bp.route('/today', methods=["GET"])
 def today() :
     today = datetime.datetime.today()
