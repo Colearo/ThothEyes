@@ -410,7 +410,7 @@ const hotspot = {
     	<h1>话题排行榜</h1>
 	<ol>
 	    <li v-for="item in subtopics">
-		<a>{{item.title}}</a>
+		{{item.title}}
     		<h3 v-bind:style="{color: activeColor(item.hotspot)}">{{item.hotspot.toPrecision(3)}}</h3>
 	    </li>
 	</ol>
@@ -438,9 +438,9 @@ const hotspot = {
 	    } else if (hotspot > 0.6) {
 		this.hotcolor = '#f44';
 	    } else if (hotspot > 0.2) {
-		this.hotcolor = '#2f0';
+		this.hotcolor = '#B4881D';
 	    } else {
-		this.hotcolor = '#284';
+		this.hotcolor = '#85981C';
 	    }
 	    return this.hotcolor;
 	}
