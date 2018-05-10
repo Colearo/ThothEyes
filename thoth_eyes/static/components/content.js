@@ -424,7 +424,15 @@ const hotspot = {
 	    hotcolor: 'black'
 	}
     },
-    computed : {
+    methods : {
+	get_subtopics : function() {
+	    let url = '/api/hotspots/subtopics/today';
+	    this.$http.get(url)
+	    .then(({body}) => {
+		console.log(body);
+		this.subtopics = body;
+	    })
+	},
 	activeColor: function(hotspot) {
 	    if (hotspot > 0.8) {
 		this.hotcolor = '#f44';
@@ -437,16 +445,6 @@ const hotspot = {
 	    }
 	    return this.hotcolor;
 	}
-    },
-    methods : {
-	get_subtopics : function() {
-	    let url = '/api/hotspots/subtopics/today';
-	    this.$http.get(url)
-	    .then(({body}) => {
-		console.log(body);
-		this.subtopics = body;
-	    })
-	},
     },
     created : function() {
 	this.get_subtopics();
