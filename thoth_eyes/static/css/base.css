@@ -418,26 +418,26 @@ a svg {
     padding-left: 15px;
 }
 .newslist li {
-    padding: 5px 5px;
     margin-left: 15px;
-    margin-bottom: 8px;
-    text-decoration: none;
-    font-size: 90%;
-    font-family: Geneva, sans-serif;
-    text-align: left;
-    color: black;
     border-bottom: 1px solid black;
     outline: none;
+    height: 25px;
 }
 .newslist div {
     display: block;
     width: 100%;
+    height: 100%;
 }
 .newslist li a {
+    color: black;
     width: 80%;
     display: inline-block;
     float: left;
     overflow: hidden;
+    text-align: left;
+    font-size: 90%;
+    font-family: Geneva, sans-serif;
+    text-decoration: none;
 }
 .newslist li span {
     width: 15%;
