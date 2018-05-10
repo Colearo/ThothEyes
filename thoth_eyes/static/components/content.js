@@ -410,11 +410,12 @@ const hotspot = {
     	<h1>话题排行榜</h1>
 	<ol>
 	    <li v-for="item in subtopics">
-		<a>{{item.title}}
+		<a>
+    		{{item.title}}
+    		</a>
     		<span v-bind:style="{color: activeColor(item.hotspot)}">
     		{{item.hotspot.toPrecision(3)}}
     		</span>
-    		</a>
 	    </li>
 	</ol>
     </div>
