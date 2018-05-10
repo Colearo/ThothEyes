@@ -410,7 +410,7 @@ const hotspot = {
     	<h1>话题排行榜</h1>
 	<ol>
 	    <li v-for="item in subtopics">
-    		<div>
+    		<div class="clearfix">
 		<a>
     		{{item.title}}
     		</a>

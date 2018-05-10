@@ -437,6 +437,7 @@ a svg {
     width: 80%;
     display: inline-block;
     float: left;
+    overflow: hidden;
 }
 .newslist li span {
     width: 15%;
