@@ -429,6 +429,12 @@ a svg {
     border-bottom: 1px solid black;
     outline: none;
 }
+.newslist li a h3 {
+    display: inline-block;
+    float: right;
+    width: 10%;
+    text-align: right;
+}
 .newslist li a:hover {
     border: 1px solid black;
 }

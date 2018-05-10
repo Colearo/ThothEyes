@@ -119,6 +119,7 @@ class ORM :
             topsubtopic_dict = dict()
             topsubtopic_dict['title'] = title
             topsubtopic_dict['id'] = subtopic_id
+            topsubtopic_dict['hotspot'] = hotspot
             topsubtopics.append(topsubtopic_dict)
 
         return topsubtopics
