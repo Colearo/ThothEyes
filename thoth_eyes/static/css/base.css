@@ -424,8 +424,8 @@ a svg {
     outline: none;
 }
 .newslist div {
-    display: block;
-    width: 100%;
+    display: inline-block;
+    width: 90%;
     height: 100%;
 }
 .newslist li a {
