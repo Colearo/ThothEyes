@@ -419,6 +419,7 @@ a svg {
 }
 .newslist li {
     padding: 5px 5px;
+    padding-left: 20px;
     margin-bottom: 8px;
     text-decoration: none;
     font-size: 90%;
@@ -433,9 +434,6 @@ a svg {
     float: right;
     font-size: 80%;
     text-align: right;
-}
-.newslist li a:hover {
-    border: 1px solid black;
 }
 .timeline {
     padding: 0;

@@ -423,7 +423,6 @@ const hotspot = {
     data : function() {
 	return {
 	    subtopics : [], 
-	    hotcolor: 'black'
 	}
     },
     methods : {
@@ -436,16 +435,17 @@ const hotspot = {
 	    })
 	},
 	activeColor: function(hotspot) {
+	    hotcolor = '';
 	    if (hotspot > 1) {
-		this.hotcolor = '#c00';
+		hotcolor = '#c00';
 	    } else if (hotspot > 0.6) {
-		this.hotcolor = '#f44';
+		hotcolor = '#f44';
 	    } else if (hotspot > 0.2) {
-		this.hotcolor = '#B4881D';
+		hotcolor = '#B4881D';
 	    } else {
-		this.hotcolor = '#85981C';
+		hotcolor = '#85981C';
 	    }
-	    return this.hotcolor;
+	    return hotcolor;
 	}
     },
     created : function() {
