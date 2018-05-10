@@ -417,9 +417,7 @@ a svg {
     margin: 0;
     padding-left: 15px;
 }
-.newslist li {
-    display: block;
-    width: 95%;
+.newslist li a {
     padding: 5px 5px;
     margin-bottom: 8px;
     text-decoration: none;
@@ -430,10 +428,9 @@ a svg {
     border-bottom: 1px solid black;
     outline: none;
 }
-.newslist li a h3 {
+.newslist li a span{
     display: inline-block;
     float: right;
-    width: 10%;
     font-size: 80%;
     text-align: right;
 }
