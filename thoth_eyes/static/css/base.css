@@ -414,7 +414,7 @@ a svg {
 }
 .newslist ol {
     list-style-type: decimal;
-    list-style-position: inside;
+    list-style-position: outside;
     margin: 0;
     padding-left: 15px;
 }
@@ -422,7 +422,7 @@ a svg {
     margin-left: 15px;
     margin-bottom: 8px;
     outline: none;
-    font-size: 110%;
+    font-size: 130%;
     font-family: Geneva, sans-serif;
 }
 .newslist div {
