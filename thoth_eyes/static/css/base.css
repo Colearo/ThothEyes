@@ -396,7 +396,7 @@ a svg {
     padding: 10px;
     max-height: 550px;
     overflow: scroll;
-    width: 32%;
+    width: 33%;
 }
 .newslist h1 {
     display: block;
@@ -419,7 +419,7 @@ a svg {
     padding-left: 15px;
 }
 .newslist li {
-    margin-left: 15px;
+    margin-left: 25px;
     margin-bottom: 8px;
     outline: none;
     font-family: Geneva, sans-serif;
@@ -434,7 +434,7 @@ a svg {
     width: 80%;
     display: inline-block;
     float: left;
-    padding-left: 10px;
+    padding-left: 5px;
     overflow: hidden;
     text-align: left;
     font-size: 80%;
