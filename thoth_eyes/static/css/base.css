@@ -414,12 +414,13 @@ a svg {
 }
 .newslist ol {
     list-style-type: decimal;
+    list-style-position: inside;
     margin: 0;
     padding-left: 15px;
 }
 .newslist li {
     margin-left: 15px;
-    border-bottom: 1px solid black;
+    margin-bottom: 8px;
     outline: none;
 }
 .newslist div {
@@ -437,6 +438,7 @@ a svg {
     font-size: 90%;
     font-family: Geneva, sans-serif;
     text-decoration: none;
+    border-bottom: 1px solid black;
 }
 .newslist li span {
     width: 15%;
@@ -444,6 +446,7 @@ a svg {
     float: right;
     font-size: 80%;
     text-align: right;
+    font-family: Geneva, sans-serif;
 }
 .timeline {
     padding: 0;
