@@ -418,7 +418,9 @@ a svg {
     padding-left: 15px;
 }
 .newslist li a {
-    display: block;
+    display: inline-block;
+    float: left;
+    width: 85%;
     padding: 5px 5px;
     margin-bottom: 8px;
     text-decoration: none;
