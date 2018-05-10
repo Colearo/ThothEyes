@@ -482,7 +482,7 @@ const wordcloud = {
 	    type: Object,
 	    default :function() {
 		return {
-		    gridSize : 52,
+		    gridSize : 22,
 		    minSize : 10,
 		    weightFactor : function (size) {
 			return Math.pow(size, 0.5) * 4
