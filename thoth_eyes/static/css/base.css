@@ -422,7 +422,6 @@ a svg {
     margin-left: 15px;
     margin-bottom: 8px;
     outline: none;
-    font-size: 130%;
     font-family: Geneva, sans-serif;
 }
 .newslist div {
@@ -438,7 +437,7 @@ a svg {
     padding-left: 10px;
     overflow: hidden;
     text-align: left;
-    font-size: 90%;
+    font-size: 80%;
     font-family: Geneva, sans-serif;
     text-decoration: none;
     border-bottom: 1px solid black;
@@ -447,7 +446,7 @@ a svg {
     width: 15%;
     display: inline-block;
     float: right;
-    font-size: 80%;
+    font-size: 70%;
     text-align: right;
     font-family: Geneva, sans-serif;
 }
