@@ -443,7 +443,7 @@ const hotspot = {
 		hotcolor = '#c00';
 	    } else if (hotspot > 0.6) {
 		hotcolor = '#f44';
-	    } else if (hotspot > 0.2) {
+	    } else if (hotspot > 0.35) {
 		hotcolor = '#B4881D';
 	    } else {
 		hotcolor = '#85981C';
