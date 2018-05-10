@@ -411,7 +411,7 @@ const hotspot = {
 	<ol>
 	    <li v-for="item in subtopics">
 		<a>{{item.title}}
-    		<h3 v-bind:style="active_color(item.hotspot)">{{item.hotspot}}</h3>
+    		<h3 v-bind:style="activeColor(item.hotspot)">{{item.hotspot}}</h3>
     		</a>
 	    </li>
 	</ol>
@@ -424,7 +424,7 @@ const hotspot = {
 	}
     },
     computed : {
-	active_color: function(hotspot) {
+	activeColor: function(hotspot) {
 	    if (hotspot > 0.8) {
 		return {color: '#f44'};
 	    } else if (hotspot > 0.6) {
