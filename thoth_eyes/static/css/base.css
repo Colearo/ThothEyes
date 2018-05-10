@@ -415,7 +415,7 @@ a svg {
 .newslist ol {
     list-style-type: decimal;
     margin: 0;
-    padding-left: 25px;
+    padding-left: 15px;
 }
 .newslist li {
     padding: 5px 5px;
@@ -428,6 +428,10 @@ a svg {
     color: black;
     border-bottom: 1px solid black;
     outline: none;
+}
+.newslist div {
+    display: block;
+    width: 100%;
 }
 .newslist li a {
     width: 80%;
