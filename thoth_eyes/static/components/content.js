@@ -336,7 +336,7 @@ const news_graph_hotspot_lower = {
 		},
 		elements: {
 		    line: {
-			tension: 0 // disables bezier curves
+			//tension: 0 // disables bezier curves
 		    },
 		    point: {
 			radius: 2.5,  //point radius
