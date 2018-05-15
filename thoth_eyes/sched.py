@@ -326,6 +326,7 @@ class ThothEyes :
             if news_item is None :
                 continue
             news.append(news_item)
+        news.sort(key= lambda d:d['Date'])
         return news
 
     def find_news_by_newsid(self, news_id) :
