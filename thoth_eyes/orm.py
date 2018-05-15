@@ -135,7 +135,7 @@ class ORM :
             for subtopic in topic :
                 timeline_item = dict()
                 news_item = self.te.find_news_by_subtopicid(subtopic)
-                news_item = news_item[0]
+                news_item = news_item[len(news_item)/2]
                 timeline_item['title'] = news_item['Title']
                 timeline_item['date'] = news_item['Date'].split(' ')[0]
                 paragraphs = news_item['Content'].split('\n')
